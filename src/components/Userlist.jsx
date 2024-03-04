@@ -10,12 +10,12 @@ const Userlist = () => {
   }, []);
 
   const getUsers = async () => {
-    const response = await axios.get("http://localhost:5000/users");
+    const response = await axios.get("http://localhost:3000/users");
     setUsers(response.data);
   };
 
   const deleteUser = async (userId) => {
-    await axios.delete(`http://localhost:5000/users/${userId}`);
+    await axios.delete(`http://localhost:3000/users/${userId}`);
     getUsers();
   };
 
@@ -31,14 +31,13 @@ const Userlist = () => {
           <tr>
             <th>No</th>
             <th>Name</th>
-            <th>Email</th>
             <th>Role</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user, index) => (
-            <tr key={user.uuid}>
+            <tr key={user.id}>
               <td>{index + 1}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>

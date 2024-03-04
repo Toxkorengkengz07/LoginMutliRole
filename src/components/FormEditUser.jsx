@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
+
 const FormEditUser = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+ 
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   const [role, setRole] = useState("");
@@ -15,9 +16,9 @@ const FormEditUser = () => {
   useEffect(() => {
     const getUserById = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/users/${id}`);
+        const response = await axios.get(`http://localhost:3000/users/${id}`);
         setName(response.data.name);
-        setEmail(response.data.email);
+        
         setRole(response.data.role);
       } catch (error) {
         if (error.response) {
@@ -31,9 +32,8 @@ const FormEditUser = () => {
   const updateUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:5000/users/${id}`, {
+      await axios.patch(`http://localhost:3000/users/${id}`, {
         name: name,
-        email: email,
         password: password,
         confPassword: confPassword,
         role: role,
@@ -66,18 +66,7 @@ const FormEditUser = () => {
                   />
                 </div>
               </div>
-              <div className="field">
-                <label className="label">Email</label>
-                <div className="control">
-                  <input
-                    type="text"
-                    className="input"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email"
-                  />
-                </div>
-              </div>
+             
               <div className="field">
                 <label className="label">Password</label>
                 <div className="control">

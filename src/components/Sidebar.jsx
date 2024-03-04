@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoPerson, IoPricetag, IoHome, IoLogOut } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,12 +22,12 @@ const Sidebar = () => {
         <ul className="menu-list">
           <li>
             <NavLink to={"/dashboard"}>
-              <IoHome /> Dashboard
+              <IoHome /> Home
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/products"}>
-              <IoPricetag /> Products
+            <NavLink to={"/park"}>
+              <IoPricetag /> Park List
             </NavLink>
           </li>
         </ul>
@@ -53,6 +53,28 @@ const Sidebar = () => {
           </li>
         </ul>
       </aside>
+    </div>
+  );
+};
+
+export default Sidebar;
+*/
+
+// Sidebar.jsx
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { resetAuthState } from '../features/authSlice'; // Hanya resetAuthState yang diimpor
+
+const Sidebar = () => {
+  const dispatch = useDispatch();
+
+  const handleReset = () => {
+    dispatch(resetAuthState());
+  };
+
+  return (
+    <div>
+      <button onClick={handleReset}>Reset Auth State</button>
     </div>
   );
 };

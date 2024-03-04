@@ -1,9 +1,9 @@
-import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import logo from "../logo.png";
-import { useDispatch, useSelector } from "react-redux";
-import { LogOut, reset } from "../features/authSlice";
 
+import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../Park.jpg";
+//import { useDispatch, useSelector } from "react-redux";
+import { LogOut, reset } from "../features/authSlice";
+/*import React from "react";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,3 +58,37 @@ const Navbar = () => {
 };
 
 export default Navbar;
+*/
+
+// Navbar.jsx
+import React from 'react';
+//import { useDispatch } from 'react-redux';
+import { logOut } from '../features/authSlice'; // Mengimpor fungsi logOut dari authSlice.js
+
+import { useSelector, useDispatch } from "react-redux";
+import authSlice from "../features/authSlice";
+
+
+
+
+const Navbar = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logOut()); // Memanggil fungsi logOut saat tombol logout diklik
+  };
+
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+
+  return (
+    <div>
+      {isLoggedIn && <button onClick={handleLogout}>Logout</button>}
+    </div>
+  );
+
+};
+
+export default Navbar;
+
+

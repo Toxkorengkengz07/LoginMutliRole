@@ -1,3 +1,4 @@
+/*
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -11,8 +12,8 @@ const initialState = {
 
 export const LoginUser = createAsyncThunk("user/LoginUser", async(user, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:5000/login', {
-            email: user.email,
+        const response = await axios.post('http://localhost:3000/login', {
+            name: user.username,
             password: user.password
         });
         return response.data;
@@ -79,4 +80,65 @@ export const authSlice = createSlice({
 });
 
 export const {reset} = authSlice.actions;
+export default authSlice.reducer;
+*/
+
+// authSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { loginUserAPI } from '../features/authSlice'; // Anda perlu menyesuaikan ini dengan fungsi yang mengirimkan permintaan login ke backend
+export const { getMe } = authSlice.actions;
+//import { login, logout, getMe } from "../features/authSlice";
+
+
+
+export const loginUser = createAsyncThunk(
+  'auth/loginUser',
+  async ({ username, password, role }) => { // Menambahkan parameter role
+    const response = await loginUserAPI(username, password, role);
+    return response.data; // Asumsikan backend mengembalikan data pengguna dan token
+  }
+);
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: {
+    user: null,
+    isLoading: false,
+    isSuccess: false,
+    isError: false,
+    errorMessage: '',
+    token: null,
+  },
+  reducers: {
+    resetAuthState(state) {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.errorMessage = '';
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessage = action.error.message;
+      });
+  },
+});
+
+export const { resetAuthState } = authSlice.actions;
+authSlice.actions.getMe = getMe;
+export const { logOut } = authSlice.actions;
+
+
 export default authSlice.reducer;
